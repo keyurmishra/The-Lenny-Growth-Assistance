@@ -1,0 +1,110 @@
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL + pgvector
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: pgvector/pgvector:pg16
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-lenny}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lenny_local_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-lenny_assistant}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts/init_db.sql:/docker-entrypoint-initdb.d/01_init.sql
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-lenny} -d ${POSTGRES_DB:-lenny_assistant}"
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+    restart: unless-stopped
+
+
+  # ---------------------------------------------------------------------------
+  # Ollama
+  # ---------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:latest
+
+    ports:
+      - "11434:11434"
+
+    volumes:
+      - ollama_data:/root/.ollama
+
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+    restart: unless-stopped
+
+
+  # ---------------------------------------------------------------------------
+  # Backend
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env
+
+    environment:
+      POSTGRES_HOST: postgres
+      OLLAMA_BASE_URL: http://ollama:11434
+
+    volumes:
+      - ./backend/app:/app/app
+      - ./data:/app/data
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+      ollama:
+        condition: service_healthy
+
+    restart: unless-stopped
+
+
+  # ---------------------------------------------------------------------------
+  # Frontend
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    ports:
+      - "5173:5173"
+
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+    volumes:
+      - ./frontend/src:/app/src
+
+    depends_on:
+      - backend
+
+
+volumes:
+  postgres_data:
+  ollama_data:

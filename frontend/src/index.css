@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   BASE STYLES — Claude-inspired aesthetic
+   ============================================================ */
+
+@layer base {
+  html, body {
+    height: 100%;
+    background: #fafaf8;
+    color: #1a1916;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Smooth scrollbar — Claude uses minimal scrollbars */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d4d3cc;
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b5b3ae;
+  }
+}
+
+/* ============================================================
+   CHAT MESSAGE PROSE — Markdown rendering
+   ============================================================ */
+
+.prose-chat {
+  color: #1a1916;
+  line-height: 1.7;
+}
+
+.prose-chat p {
+  margin-bottom: 0.75rem;
+}
+.prose-chat p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-chat h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #1a1916;
+}
+.prose-chat h2 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.375rem;
+  color: #1a1916;
+}
+.prose-chat h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: #1a1916;
+}
+
+.prose-chat ul {
+  list-style-type: disc;
+  padding-left: 1.375rem;
+  margin-bottom: 0.75rem;
+  space-y: 0.25rem;
+}
+.prose-chat ol {
+  list-style-type: decimal;
+  padding-left: 1.375rem;
+  margin-bottom: 0.75rem;
+}
+.prose-chat li {
+  margin-bottom: 0.25rem;
+  line-height: 1.65;
+}
+
+.prose-chat strong {
+  font-weight: 600;
+  color: #1a1916;
+}
+
+.prose-chat em {
+  font-style: italic;
+}
+
+.prose-chat code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+  background: #f0efeb;
+  color: #44433e;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  border: 1px solid #e8e7e1;
+}
+
+.prose-chat pre {
+  background: #f0efeb;
+  border: 1px solid #e8e7e1;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+.prose-chat pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+}
+
+.prose-chat blockquote {
+  border-left: 3px solid #d97706;
+  padding-left: 1rem;
+  color: #44433e;
+  font-style: italic;
+  margin: 0.75rem 0;
+}
+
+.prose-chat a {
+  color: #b45309;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-chat a:hover {
+  color: #92400e;
+}
+
+/* Tables (remark-gfm) */
+.prose-chat table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+}
+.prose-chat th {
+  background: #f0efeb;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #e8e7e1;
+  color: #44433e;
+}
+.prose-chat td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e8e7e1;
+}
+.prose-chat tr:nth-child(even) td {
+  background: #fafaf8;
+}
+
+/* Task lists */
+.prose-chat input[type="checkbox"] {
+  margin-right: 0.375rem;
+  accent-color: #d97706;
+}
+
+/* ============================================================
+   LOADING DOTS ANIMATION
+   ============================================================ */
+
+@keyframes dot-pulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.75); }
+  40%           { opacity: 1;   transform: scale(1); }
+}
+
+.loading-dot {
+  width: 6px;
+  height: 6px;
+  background: #8a8880;
+  border-radius: 50%;
+  animation: dot-pulse 1.4s ease-in-out infinite;
+}
+.loading-dot:nth-child(1) { animation-delay: 0s; }
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ============================================================
+   TEXTAREA AUTO-RESIZE
+   ============================================================ */
+
+.auto-resize-textarea {
+  resize: none;
+  overflow-y: hidden;
+  min-height: 24px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* ============================================================
+   SMOOTH TRANSITIONS
+   ============================================================ */
+
+.fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.1s ease;
+  font-size: 0.8125rem;
+  color: #44433e;
+  width: 100%;
+  text-align: left;
+}
+.sidebar-item:hover {
+  background: #e8e7e1;
+}
+.sidebar-item.active {
+  background: #e2e1da;
+  color: #1a1916;
+  font-weight: 500;
+}

@@ -1,0 +1,44 @@
+# Environment & Secrets — NEVER commit these
+.env
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Data (large files — downloaded at setup time)
+data/transcripts/*.txt
+data/transcripts/*.md
+
+# Test / Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Models (downloaded at runtime)
+*.bin
+*.onnx
+
+show_chunks.py
