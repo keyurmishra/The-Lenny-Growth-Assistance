@@ -7,7 +7,7 @@
 
 ## Demo Video
 
-🎥 **[Watch the 2-minute demo on YouTube](https://youtube.com/YOUR_LINK_HERE)**  
+🎥 **[Watch the 2-minute demo on YouTube](https://youtu.be/bPSqrdQ2I10)**  
 *(Shows: live Q&A → Ship30 essay → HTML artifact → LLM provider switch → security model)*
 
 ---
